@@ -1,12 +1,28 @@
+# 1. 导入 os 模块
+import os
 from joblib import load
 import pandas as pd
 import sklearn
 
-model_rest = load("artifacts/model_rest.joblib")
-model_young = load("artifacts/model_young.joblib")
+# 2. 获取当前脚本所在的绝对路径
+# __file__ 是一个魔法变量，代表当前.py文件的路径
+# os.path.dirname() 获取该路径所在的目录
+# os.path.abspath() 确保我们得到的是绝对路径
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-scaler_rest = load("artifacts/scaler_rest.joblib")
-scaler_young = load("artifacts/scaler_young.joblib")
+# 3. 构建模型文件的绝对路径
+# os.path.join() 会智能地帮你拼接路径，避免了 Windows/Linux 斜杠不同的问题
+MODEL_REST_PATH = os.path.join(BASE_DIR, "artifacts", "model_rest.joblib")
+MODEL_YOUNG_PATH = os.path.join(BASE_DIR, "artifacts", "model_young.joblib")
+SCALER_REST_PATH = os.path.join(BASE_DIR, "artifacts", "scaler_rest.joblib")
+SCALER_YOUNG_PATH = os.path.join(BASE_DIR, "artifacts", "scaler_young.joblib")
+
+# 4. 使用新的绝对路径来加载模型
+model_rest = load(MODEL_REST_PATH)
+model_young = load(MODEL_YOUNG_PATH)
+
+scaler_rest = load(SCALER_REST_PATH)
+scaler_young = load(SCALER_YOUNG_PATH)
 
 def calculate_normalized_risk(medical_history_list):
     RISK_SCORES = {
